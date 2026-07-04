@@ -31,19 +31,19 @@ class OnBoardingScreen extends StatelessWidget {
                     children: [
                       Text(
                         "Manage and schedule all of your medical appointments easily with Docdoc to get a new experience.",
-                        style: TextStyles.font12Gray400Weight,
+                        style: TextStyles.font12GrayRegular,
                         textAlign: TextAlign.center,
                       ),
                       Gap(32.h),
-                      Gap(30.h),
                       SizedBox(
                         width: double.infinity,
                         height: 50.h,
                         child: ElevatedButton(
-                          onPressed: () =>
-                              context.pushNamedAndRemoveUntil(Routes.login),
+                          onPressed: () => context.pushNamedAndRemoveUntil(
+                            Routes.loginScreen,
+                          ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor,
+                            backgroundColor: AppColors.mainBlue,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16.r),
                             ),
@@ -52,7 +52,7 @@ class OnBoardingScreen extends StatelessWidget {
                           ),
                           child: Text(
                             "Get Started",
-                            style: TextStyles.font16White600Weight,
+                            style: TextStyles.font16WhiteSemiBold,
                           ),
                         ),
                       ),
