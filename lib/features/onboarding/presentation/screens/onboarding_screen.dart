@@ -39,8 +39,9 @@ class OnBoardingScreen extends StatelessWidget {
                         width: double.infinity,
                         height: 50.h,
                         child: ElevatedButton(
-                          onPressed: () =>
-                              context.pushNamedAndRemoveUntil(Routes.login),
+                          onPressed: () => context.pushNamedAndRemoveUntil(
+                            Routes.loginScreen,
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.mainBlue,
                             shape: RoundedRectangleBorder(

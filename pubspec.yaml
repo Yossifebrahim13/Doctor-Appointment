@@ -28,11 +28,12 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  cupertino_icons: ^1.0.8
-
   flutter:
     sdk: flutter
-    # State Management
+  cupertino_icons: ^1.0.8
+  # code generation
+  build_runner: ^2.15.0
+  # State Management
   flutter_bloc: ^9.1.1
   # UI
   flutter_native_splash: ^2.4.7

@@ -1,33 +1,19 @@
 import 'package:doctor_appointment/core/themes/text_styles.dart';
-import 'package:doctor_appointment/core/widgets/app_text_form_field.dart';
+import 'package:doctor_appointment/features/login/data/models/login_request_body.dart';
 import 'package:doctor_appointment/features/login/presentation/widgets/already_have_an_account.dart';
+import 'package:doctor_appointment/features/login/presentation/widgets/login_bloc_listener.dart';
 import 'package:doctor_appointment/features/login/presentation/widgets/terms_and_conditions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/themes/app_colors.dart';
 import '../../../../core/widgets/app_text_button.dart';
+import '../../logic/cubit/login_cubit.dart';
+import '../widgets/email_and_password.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool isObscureText = true;
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,50 +35,33 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: TextStyles.font14GrayRegular,
                   ),
                   Gap(60.h),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        AppTextFormField(hintText: 'Email'),
-                        Gap(30.h),
-                        AppTextFormField(
-                          hintText: 'Password',
-                          isObscureText: isObscureText,
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isObscureText = !isObscureText;
-                              });
-                            },
-                            child: Icon(
-                              isObscureText
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                            ),
-                          ),
+                  Column(
+                    children: [
+                      EmailAndPassword(),
+                      Gap(15.h),
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyles.font13BlueRegular,
                         ),
-                        Gap(24.h),
-                        Align(
-                          alignment: AlignmentDirectional.centerEnd,
-                          child: Text(
-                            'Forgot Password?',
-                            style: TextStyles.font13BlueRegular,
-                          ),
-                        ),
-                        Gap(40.h),
-                        AppTextButton(
-                          buttonText: 'Login',
-                          onPressed: () {},
-                          textStyle: TextStyles.font16WhiteSemiBold,
-                        ),
-                        Gap(30.h),
+                      ),
+                      Gap(40.h),
+                      AppTextButton(
+                        buttonText: 'Login',
+                        onPressed: () {
+                          validateThenLogin(context);
+                        },
+                        textStyle: TextStyles.font16WhiteSemiBold,
+                      ),
+                      Gap(30.h),
 
-                        const TermsAndConditions(),
+                      const TermsAndConditions(),
 
-                        Gap(80.h),
-                        const AlreadyHaveAnAccount(),
-                      ],
-                    ),
+                      Gap(80.h),
+                      const AlreadyHaveAnAccount(),
+                      const LoginBlocListener(),
+                    ],
                   ),
                 ],
               ),
@@ -101,5 +70,16 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void validateThenLogin(BuildContext context) {
+    if (context.read<LoginCubit>().formKey.currentState!.validate()) {
+      context.read<LoginCubit>().emitLoginStates(
+        LoginRequestBody(
+          email: context.read<LoginCubit>().emailController.text.trim(),
+          password: context.read<LoginCubit>().passwordController.text.trim(),
+        ),
+      );
+    }
   }
 }
