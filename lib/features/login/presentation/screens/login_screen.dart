@@ -1,6 +1,6 @@
 import 'package:doctor_appointment/core/themes/text_styles.dart';
 import 'package:doctor_appointment/features/login/data/models/login_request_body.dart';
-import 'package:doctor_appointment/features/login/presentation/widgets/already_have_an_account.dart';
+import 'package:doctor_appointment/features/login/presentation/widgets/do_not_have_an_account.dart';
 import 'package:doctor_appointment/features/login/presentation/widgets/login_bloc_listener.dart';
 import 'package:doctor_appointment/features/login/presentation/widgets/terms_and_conditions.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,6 @@ class LoginScreen extends StatelessWidget {
                   Gap(8.h),
                   Text(
                     "We're excited to have you back, can't wait to \n see what you've been up to since you last \n logged in.",
-
                     style: TextStyles.font14GrayRegular,
                   ),
                   Gap(60.h),
@@ -59,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                       const TermsAndConditions(),
 
                       Gap(80.h),
-                      const AlreadyHaveAnAccount(),
+                      const DoNotHaveAnAccount(),
                       const LoginBlocListener(),
                     ],
                   ),
@@ -74,12 +73,7 @@ class LoginScreen extends StatelessWidget {
 
   void validateThenLogin(BuildContext context) {
     if (context.read<LoginCubit>().formKey.currentState!.validate()) {
-      context.read<LoginCubit>().emitLoginStates(
-        LoginRequestBody(
-          email: context.read<LoginCubit>().emailController.text.trim(),
-          password: context.read<LoginCubit>().passwordController.text.trim(),
-        ),
-      );
+      context.read<LoginCubit>().emitLoginStates();
     }
   }
 }
